@@ -1,0 +1,122 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /tasks:
+    get:
+      tags:
+      - task-controller
+      summary: Получить список всех задач
+      operationId: getAllTasks
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WebTask"
+    put:
+      tags:
+      - task-controller
+      summary: Обновить задачу
+      operationId: updateTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebTask"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/WebTask"
+    post:
+      tags:
+      - task-controller
+      summary: Создать новую задачу
+      operationId: createTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebTask"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/WebTask"
+  /tasks/{id}:
+    get:
+      tags:
+      - task-controller
+      summary: Получить задачу по ID
+      operationId: getTaskById
+      parameters:
+      - name: id
+        in: path
+        description: ID задачи
+        required: true
+        schema:
+          type: string
+        example: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/WebTask"
+    delete:
+      tags:
+      - task-controller
+      summary: Удалить задачу
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        description: ID задачи
+        required: true
+        schema:
+          type: string
+        example: 1
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    WebTask:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор задачи
+          example: "1"
+        title:
+          type: string
+          description: Название задачи
+          example: Купить продукты
+        description:
+          type: string
+          description: Описание задачи
+          example: "Молоко, хлеб, яйца"
+        dueDate:
+          type: string
+          description: Дата выполнения задачи
+          format: date-time
+        completed:
+          type: boolean
+          description: Статус выполнения задачи
+          example: false
+      description: Данные задачи
